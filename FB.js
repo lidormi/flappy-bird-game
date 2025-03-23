@@ -24,7 +24,7 @@ let pipeGap = 150;  // הגובה של הרווח בין הצינורות
 // משתנים עבור התנועה
 let velocityX = -2; // מהירות הצינורות
 let gravity = 0.4; // כוח הכבידה
-let jumpPower = -10; // כוח הקפיצה של הציפור
+let jumpPower = -8; // כוח הקפיצה של הציפור
 let score = 0;
 let gameOver = false;
 let gameStarted = false;
@@ -58,6 +58,7 @@ window.onload = function() {
     document.addEventListener("keydown", moveBird);
     board.addEventListener("click", startGame); // התחלת המשחק בלחיצה על המסך
     board.addEventListener("touchstart", startGame); // התחלת המשחק בלחיצה על המסך במובייל
+    board.addEventListener("touchstart", moveBird);  // זיהוי נגיעה לצורך קפיצה
 };
 
 // התחלת המשחק כאשר לוחצים על רווח או על המסך
@@ -161,8 +162,10 @@ function placePipes() {
 
 // תנועת הציפור ברגע שלוחצים על מקש (רווח או חץ למעלה)
 function moveBird(e) {
-    if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
+    if (e.type === "keydown" && (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX")) {
         bird.velocityY = jumpPower; // הציפור קופצת למעלה
+    } else if (e.type === "touchstart") {
+        bird.velocityY = jumpPower; // הציפור קופצת למעלה גם אם נוגעים במסך
     }
 }
 
