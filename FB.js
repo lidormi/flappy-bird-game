@@ -114,7 +114,7 @@ function update() {
     // הצגת הניקוד
     context.fillStyle = "white";
     context.font = "35px sans-serif";
-    context.fillText(score.toFixed(1), 7, 48);
+    context.fillText(Math.floor(score), 7, 48);
 
     if (gameOver) {
         context.fillText("Game Over", boardWidth / 2 - 100, boardHeight / 2 - 25);  // מציג את ההודעה Game Over
