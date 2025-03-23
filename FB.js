@@ -54,11 +54,10 @@ window.onload = function() {
     bottomPipeImg.src = "bottompipe.png";
 
     // מאזינים לאירועים - התחלת המשחק ומעבר הציפור
+    window.addEventListener("touchstart", handleTouch, { passive: false });
+    window.addEventListener("click", handleTouch);
     document.addEventListener("keydown", startGame);
     document.addEventListener("keydown", moveBird);
-    board.addEventListener("click", startGame); // התחלת המשחק בלחיצה על המסך
-    board.addEventListener("touchstart", startGame); // התחלת המשחק בלחיצה על המסך במובייל
-    board.addEventListener("touchstart", moveBird);  // זיהוי נגיעה לצורך קפיצה
 };
 
 // התחלת המשחק כאשר לוחצים על רווח או על המסך
@@ -162,7 +161,7 @@ function placePipes() {
 
 // תנועת הציפור ברגע שלוחצים על מקש (רווח או חץ למעלה)
 function moveBird(e) {
-    if (e.type === "keydown" && (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX")) {
+    if (e.type === "keydown" && (e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyX")) {
         bird.velocityY = jumpPower; // הציפור קופצת למעלה
     } else if (e.type === "touchstart") {
         bird.velocityY = jumpPower; // הציפור קופצת למעלה גם אם נוגעים במסך
@@ -182,4 +181,15 @@ function clearPipes() {
     while (pipeArray.length > 0 && pipeArray[0].x + pipeWidth < 0) {
         pipeArray.shift(); // מסיר צינורות שהתפוגגו מהמסך
     }
+}
+
+// טיפול בנגיעה או לחיצה
+function handleTouch(e) {
+    // אם המשחק לא התחיל או נגמר
+    if (!gameStarted || gameOver) {
+        startGame(e); // התחלת המשחק אם זה לא התחיל או אם המשחק נגמר
+    }
+
+    // פעולת הקפיצה בלחיצה או נגיעה
+    moveBird(e);
 }
